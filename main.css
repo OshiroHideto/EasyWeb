@@ -1,23 +1,92 @@
-nav {
-    background-color: #333;
+.area {
+    width: 100%;
+    margin: auto;
+    flex-wrap: wrap;
+    display: flex;
+    position: relative;
 }
 
-nav ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-}
-
-nav ul li a {
+.tab_class {
+    width: calc(100%/4);
+    height: 50px;
+    background-color: darkgrey;
+    line-height: 50px;
+    font-size: 15px;
+    text-align: center;
     display: block;
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
+    float: left;
+    order: -1;
 }
 
-nav ul li a:hover {
-    background-color: #555;
+input[name="tab_name"] {
+    display: none;
+}
+
+input:checked+.tab_class {
+    background-color: cadetblue;
+    color: aliceblue;
+}
+
+.content_class {
+    display: none;
+    width: 100%;
+}
+
+input:checked+.tab_class+.content_class {
+    display: block;
+}
+
+.content_DragAndDrop {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.show-dragarea-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+
+/* ドラッグする要素のスタイルの設定 */
+.drag-element {
+    position: absolute;
+    right: -10px;
+    top: 50px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    transform: translateX(100%);
+    transition: .5s;
+}
+
+.active{
+    /* Y方向に要素を移動させる */
+    transform: translateX(0%);
+    transition: .5s;
+}
+
+/* ドロップエリアのスタイルの設定 */
+#drop-area {
+    position: relative;
+    width: 90%;
+    height: 300px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 300px;
+    font-size: 20px;
+    color: #aaa;
+}
+
+#drop-area.hover {
+    border-color: #aaa;
+    background-color: #f0f0f0;
 }

@@ -7,17 +7,51 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
 
-    <main>
-        <!-- メインコンテンツ -->
-    </main>
+        <!-- 切り替えタブ -->
+    <div class="area">
+        <!-- 編集画面 -->
+        <input type="radio" name="tab_name" id="tab1" checked>
+        <label class="tab_class" for="tab1">編集画面</label>
+        <div class="content_class">
+        
+            <div class="content_DragAndDrop">
+                <p>
+                    <!-- ドロップエリア -->
+                    <div id="drop-area">
+                        Drag & Drop Files Here
+                    </div>
+
+                    <!-- 要素ボタン -->
+                    <button id="show-element-button" class="show-dragarea-button">要素を追加</button>
+
+                    <!-- ドラッグする要素 -->
+                    <div id="drag-element" class="drag-element" draggable="true">
+                        Drag Me!
+                    </div>
+                </p>
+            </div>
+        </div>
+
+        <!-- プレビュー画面 -->
+        <input type="radio" name="tab_name" id="tab2" >
+        <label class="tab_class" for="tab2">プレビュー画面</label>
+        <div class="content_class">
+
+            <p>
+                aaaaa
+            </p>
+        </div>
+
+        <!-- 予備 -->
+        <input type="radio" name="tab_name" id="tab3" >
+        <label class="tab_class" for="tab3">タブ3</label>
+        <div class="content_class">
+          
+        </div>
+    </div>
+
+
+    <script src="main.js"></script>
 </body>
 </html>
