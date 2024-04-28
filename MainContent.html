@@ -1,57 +1,83 @@
 <!DOCTYPE html>
 <html lang="jp">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App</title>
     <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
 
-        <!-- 切り替えタブ -->
+    <!-- 切り替えタブ -->
     <div class="area">
         <!-- 編集画面 -->
         <input type="radio" name="tab_name" id="tab1" checked>
         <label class="tab_class" for="tab1">編集画面</label>
         <div class="content_class">
-        
+
             <div class="content_DragAndDrop">
-                <p>
-                    <!-- ドロップエリア -->
-                    <div id="drop-area">
-                        Drag & Drop Files Here
-                    </div>
+                <!-- ドロップエリア -->
+                <div id="drop-area">
+                    Drag & Drop Files Here
+                </div>
 
-                    <!-- 要素ボタン -->
-                    <button id="show-element-button" class="show-dragarea-button">要素を追加</button>
+                <!-- 保存ボタン -->
+                <button id="save-button" class="save-button">保存</button>
 
-                    <!-- ドラッグする要素 -->
-                    <div id="drag-element" class="drag-element" draggable="true">
-                        Drag Me!
+                <!-- タブ切り替え -->
+                <div class="tab-switch">
+                    <input type="radio" name="tab_content" id="style-controls-tab" checked>
+                    <label class="tab_class2" for="style-controls-tab">スタイル</label>
+                    <!-- 追加：スタイルコンテンツ -->
+                    <div class="style-controls">
+                        <div>
+                            <label for="background-color">背景色:</label>
+                            <input type="color" id="background-color" class="color-picker">
+                        </div>
+
+                        <div>
+                            <label for="text-color">文字色:</label>
+                            <input type="color" id="text-color" class="color-picker">
+                        </div>
                     </div>
-                </p>
+                    <input type="radio" name="tab_content" id="drag-element-tab">
+                    <label class="tab_class2" for="drag-element-tab">要素</label>
+                    <!-- 追加：要素コンテンツ -->
+                    <div class="style-controls">
+                        <div id="drag-element" class="drag-element" draggable="true">
+                            <div id="drag-element-button" class="drag-element-button" draggable="true">
+                                Button!
+                            </div>
+                            <div id="drag-element-txitAre" class="drag-element-txitArea" draggable="true">
+                                Text!
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- プレビュー画面 -->
-        <input type="radio" name="tab_name" id="tab2" >
+        <input type="radio" name="tab_name" id="tab2">
         <label class="tab_class" for="tab2">プレビュー画面</label>
+        <!-- 追加：プレビューコンテンツ -->
         <div class="content_class">
-
             <p>
                 aaaaa
             </p>
         </div>
 
         <!-- 予備 -->
-        <input type="radio" name="tab_name" id="tab3" >
+        <input type="radio" name="tab_name" id="tab3">
         <label class="tab_class" for="tab3">タブ3</label>
         <div class="content_class">
-          
+            <!-- 追加：タブ3コンテンツ -->
         </div>
     </div>
 
-
     <script src="main.js"></script>
 </body>
+
 </html>

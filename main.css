@@ -1,5 +1,16 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
 .area {
     width: 100%;
+    height: 90%;
     margin: auto;
     flex-wrap: wrap;
     display: flex;
@@ -30,6 +41,7 @@ input:checked+.tab_class {
 .content_class {
     display: none;
     width: 100%;
+    height: 100%;
 }
 
 input:checked+.tab_class+.content_class {
@@ -37,25 +49,69 @@ input:checked+.tab_class+.content_class {
 }
 
 .content_DragAndDrop {
+    height: 100%;
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    margin-right: 20px;
 }
 
-
-.show-dragarea-button {
+.save-button {
     position: absolute;
     right: 20px;
     top: 20px;
     cursor: pointer;
 }
 
+input:checked+.tab_class2 {
+    background-color: cadetblue;
+    color: aliceblue;
+}
 
-/* ドラッグする要素のスタイルの設定 */
-.drag-element {
+.tab-switch {
     position: absolute;
-    right: -10px;
+    width: 15%;
+    height: calc(100% - 50px);
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    top: 70px;
+    right: 0;
+}
+
+/* 選択されたタブに対応するコンテンツを表示 */
+.tab-switch input[type="radio"]:checked+label~.content_class {
+    display: block;
+}
+
+/* それ以外の場合は非表示にする */
+.tab-switch input[type="radio"]:not(:checked)~.content_class {
+    display: none;
+}
+
+/* スタイルコントロールと要素コントロールの位置調整 */
+.style-controls {
+    position: absolute;
+    width: 100%;
+    display: none;
+    height: auto;
+    bottom: 0;
+    left: 0;
+}
+
+/* タブバーの高さを考慮してスタイルコントロールと要素コントロールの位置調整 */
+.style-controls {
     top: 50px;
+}
+
+.drag-element {
+    top: 50px;
+    height: 100%;
+    width: 100%;
+}
+
+
+.drag-element-button {
     background-color: #007bff;
     color: #fff;
     text-align: center;
@@ -63,30 +119,62 @@ input:checked+.tab_class+.content_class {
     cursor: pointer;
     width: 100px;
     height: 50px;
-    transform: translateX(100%);
-    transition: .5s;
+    margin-bottom: 5px;
 }
 
-.active{
-    /* Y方向に要素を移動させる */
-    transform: translateX(0%);
-    transition: .5s;
+.drag-element-txitArea {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.tab_class2 {
+    width: calc(100%/2);
+    height: 30px;
+    background-color: darkgrey;
+    line-height: 30px;
+    font-size: 15px;
+    text-align: center;
+    display: block;
+    order: -1;
+}
+
+.tab_class2 {
+    margin-top: 10px;
+}
+
+/* タイルタブ要素タブのラジオボタンの削除 */
+input[type="radio"][name="tab_content"] {
+    display: none;
+}
+
+input:checked+.tab_class2+.style-controls {
+    display: block;
 }
 
 /* ドロップエリアのスタイルの設定 */
 #drop-area {
     position: relative;
-    width: 90%;
-    height: 300px;
+    width: 85%;
+    height: calc(100% - 50px);
+    /* タブバーの高さを除いた高さに設定 */
     border: 2px dashed #ccc;
     border-radius: 10px;
     text-align: center;
-    line-height: 300px;
+    line-height: calc(100% - 50px);
+    /* タブバーの高さを除いた高さに合わせる */
     font-size: 20px;
     color: #aaa;
+    margin-top: 20px;
 }
 
-#drop-area.hover {
-    border-color: #aaa;
-    background-color: #f0f0f0;
+/* 選択された要素のスタイル */
+.cloned-element.selected {
+    border: 2px solid red; /* 枠のスタイル */
+    box-sizing: border-box; /* 枠を要素の外側に表示するための設定 */
 }
