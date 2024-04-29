@@ -178,3 +178,19 @@ input:checked+.tab_class2+.style-controls {
     border: 2px solid red; /* 枠のスタイル */
     box-sizing: border-box; /* 枠を要素の外側に表示するための設定 */
 }
+
+.height-controls {
+    width: 50px;
+}
+
+.width-controls {
+    width: 50px;
+}
+
+.font-size-controls {
+    width: 50px;
+}
+
+.font-family-controls {
+    width: 150px;
+}
