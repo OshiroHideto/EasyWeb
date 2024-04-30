@@ -30,7 +30,7 @@
                 <div class="tab-switch">
                     <input type="radio" name="tab_content" id="style-controls-tab" checked>
                     <label class="tab_class2" for="style-controls-tab">スタイル</label>
-                    <!-- 追加：スタイルコンテンツ -->
+                    <!-- スタイルコンテンツ -->
                     <div class="style-controls">
                         <div>
                             <label for="background-color">背景色:</label>
@@ -46,12 +46,12 @@
                             <label for="text-input">テキスト:</label>
                             <input type="text" id="text-input" class="text-controls">
                         </div>
-                        
+
                         <div>
                             <label for="font-size-input">フォントサイズ (px):</label>
                             <input type="number" id="font-size-input" class="font-size-controls">
                         </div>
-                        
+
                         <div>
                             <label for="font-family-input">フォントの種類:</label>
                             <select id="font-family-input" class="font-family-controls">
@@ -62,42 +62,85 @@
                             </select>
                         </div>
 
-                        <!-- 追加：文字の位置を変更するUI -->
+                        <!-- 文字の位置を変更するUI -->
                         <div>
                             <label for="text-align-select">文字の位置:</label>
                             <select id="text-align-select" class="text-align-controls">
                                 <option value="left">左揃え</option>
                                 <option value="center">中央揃え</option>
                                 <option value="right">右揃え</option>
-                            </select>                            
+                            </select>
                         </div>
 
                         <div>
                             <label for="height-input">高さ:</label>
                             <input type="number" id="height-input" class="height-controls">
                         </div>
-                        
+
                         <div>
                             <label for="width-input">幅　:</label>
                             <input type="number" id="width-input" class="width-controls">
                         </div>
 
+                        <!-- 画像アップロードUI -->
+                        <div class="image-upload-ui">
+                            <input type="file" accept="image/*">
+                        </div>
+                        <!-- 音楽アップロードUI -->
+                        <div class="audio-upload-ui">
+                            <input type="file" accept="audio/*">
+                        </div>
+                        <!-- 映像アップロードUI -->
+                        <div class="video-upload-ui">
+                            <input type="file" accept="video/*">
+                        </div>
                     </div>
 
                     <input type="radio" name="tab_content" id="drag-element-tab">
                     <label class="tab_class2" for="drag-element-tab">要素</label>
-                    <!-- 追加：要素コンテンツ -->
+                    <!-- 要素コンテンツ -->
                     <div class="style-controls">
-                        <div id="drag-element" class="drag-element" draggable="true">
+                        <div id="drag-element" class="drag-element">
+
+                            <div class="element-text">・ボタン</div>
                             <div id="drag-element-button" class="drag-element-button" draggable="true">
-                                Button!
+                                ボタン
                             </div>
-                            <div id="drag-element-txitAre" class="drag-element-txitArea" draggable="true">
-                                Text!
+
+                            <div class="element-text">・テキスト</div>
+                            <div id="drag-element-txitArea" class="drag-element-txitArea" draggable="true">
+                                テキスト
                             </div>
+
+                            <div class="element-text">・リンク</div>
+                            <div id="drag-element-link" class="drag-element-link" draggable="true">
+                                URL
+                            </div>
+
+                            <!-- 画像 -->
+                            <div class="element-text">・画像</div>
+                            <div id="drag-element-img" class="drag-element-img" draggable="true">
+                                <img src="picture.png" id="drag-element-img" alt="Image" class="element-img">
+                            </div>
+
+                            <!-- 音楽 -->
+                            <div class="element-text">・音楽</div>
+                            <div id="drag-element-audio" class="drag-element-audio" draggable="true">
+                                <img src="audio.jpg" id="drag-element-audio" alt="Audio" class="element-audio">
+                            </div>
+
+                            <!-- 映像 -->
+                            <div class="element-text">・映像</div>
+                            <div id="drag-element-video" class="drag-element-video" draggable="true">
+                                <img src="video.png" id="drag-element-video" alt="Video" class="element-video">
+                            </div>
+
+                            <!-- 要素削除ボタン -->
+                            <button id="delete-button" class="delete-button">要素の削除</button>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 

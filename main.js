@@ -20,55 +20,135 @@ document.addEventListener('DOMContentLoaded', function () {
         dropArea.classList.remove('hover');
     });
 
-    // ドロップ時のイベントリスナー
-    dropArea.addEventListener('drop', function (e) {
-        e.preventDefault();
-        dropArea.classList.remove('hover');
+// ドロップ時のイベントリスナー
+dropArea.addEventListener('drop', function (e) {
+    e.preventDefault();
+    dropArea.classList.remove('hover');
 
-        // ドロップ位置の座標を取得
-        var x = e.clientX - dropArea.getBoundingClientRect().left;
-        var y = e.clientY - dropArea.getBoundingClientRect().top;
+    // ドロップ位置の座標を取得
+    var x = e.clientX - dropArea.getBoundingClientRect().left;
+    var y = e.clientY - dropArea.getBoundingClientRect().top;
 
-        var droppedElementId = e.dataTransfer.getData("text");
-        var droppedElement = document.getElementById(droppedElementId);
+    var droppedElementId = e.dataTransfer.getData("text");
+    var droppedElement = document.getElementById(droppedElementId);
 
-        // ドロップされた要素が存在する場合のみ処理を続行
-        if (droppedElement) {
-            // ドロップされた要素のコピーを作成
-            var clonedElement = droppedElement.cloneNode(true);
+    // ドロップされた要素が存在する場合のみ処理を続行
+    if (droppedElement) {
+        // 新しい<div>要素を作成
+        var newDiv = document.createElement('div');
+        newDiv.classList.add('cloned-element');
 
-            // 一意の識別子を生成してクローンされた要素に追加
-            var uniqueId = Date.now(); // 現在のタイムスタンプを使用して一意のIDを生成
-            clonedElement.id = "clonedElement_" + uniqueId; // 識別子を設定
+        // 一意の識別子を生成して新しい<div>要素に追加
+        var uniqueId = Date.now(); // 現在のタイムスタンプを使用して一意のIDを生成
+        newDiv.id = "clonedElement_" + uniqueId; // 識別子を設定
 
-            // ドロップ位置に要素を追加
-            clonedElement.style.position = 'absolute';
-            clonedElement.style.left = x + 'px';
-            clonedElement.style.top = y + 'px';
-            clonedElement.style.resize = 'both';
-            clonedElement.classList.add('cloned-element');
+        // ドロップ位置に要素を追加
+        newDiv.style.position = 'absolute';
+        newDiv.style.left = x + 'px';
+        newDiv.style.top = y + 'px';
 
-            // クリック時のイベントリスナーを追加
-            clonedElement.addEventListener('click', function () {
-                // クリックされた要素が選択された状態になるようにする
-                var clonedElements = document.querySelectorAll('.cloned-element');
-                clonedElements.forEach(function (element) {
-                    element.classList.remove('selected');
-                });
-                clonedElement.classList.add('selected');
-                // 選択された要素のスタイルを表示する
-                displaySelectedElementStyle(clonedElement);
+        // クリック時のイベントリスナーを追加
+        newDiv.addEventListener('click', function () {
+            // クリックされた要素が選択された状態になるようにする
+            var clonedElements = document.querySelectorAll('.cloned-element');
+            clonedElements.forEach(function (element) {
+                element.classList.remove('selected');
             });
+            newDiv.classList.add('selected');
 
-            // ドラッグ＆ドロップされた要素を設定する
-            addDraggableListeners(clonedElement);
+            // 選択された要素のスタイルを表示する
+            displaySelectedElementStyle(newDiv);
 
-            // リサイズイベントリスナーを追加
-            addResizableListeners(clonedElement);
+            // 選択された要素のタイプに応じてUIを制御
+            checkSelectedElementType(newDiv);
+        });
 
-            dropArea.appendChild(clonedElement);
+        // 元の要素と同じ高さと幅を設定
+        newDiv.style.width = droppedElement.offsetWidth + 'px';
+        newDiv.style.height = droppedElement.offsetHeight + 'px';
+
+        // ドロップされた要素を新しい<div>要素に追加
+        var clonedElement = droppedElement.cloneNode(true);
+        newDiv.appendChild(clonedElement);
+
+        // ドラッグ＆ドロップされた要素を設定する
+        addDraggableListeners(newDiv);
+
+        dropArea.appendChild(newDiv);
+
+        // リサイズハンドルの要素を作成
+        var resizeHandle = document.createElement('div');
+        resizeHandle.className = 'resize-handle';
+
+        // resizeHandle のサイズを設定
+        resizeHandle.style.width = '10px';
+        resizeHandle.style.height = '10px';
+
+        // resizeHandle を newDiv の右下に配置
+        resizeHandle.style.position = 'absolute';
+        resizeHandle.style.bottom = '0';
+        resizeHandle.style.right = '0';
+
+        // newDiv に resizeHandle を追加
+        newDiv.appendChild(resizeHandle);
+
+        // リサイズ開始時の座標とサイズを保持する変数
+        var startX, startY, startWidth, startHeight;
+
+        // リサイズハンドルにマウスが乗ったときの処理
+        resizeHandle.addEventListener('mouseenter', function () {
+            resizeHandle.style.cursor = 'se-resize';
+        });
+
+        // リサイズハンドルからマウスが離れたときの処理
+        resizeHandle.addEventListener('mouseleave', function () {
+            resizeHandle.style.cursor = 'default';
+        });
+
+        // リサイズハンドルがクリックされたときの処理
+        resizeHandle.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            document.body.style.cursor = 'se-resize';
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = parseInt(document.defaultView.getComputedStyle(newDiv).width, 10);
+            startHeight = parseInt(document.defaultView.getComputedStyle(newDiv).height, 10);
+
+            // マウスのクリック位置からリサイズ判定エリアの右下の10px以内かどうかをチェック
+            var offsetX = startX - newDiv.getBoundingClientRect().right;
+            var offsetY = startY - newDiv.getBoundingClientRect().bottom;
+            var resizeAreaWidth = 10; // 横のリサイズ判定エリアの幅
+            var resizeAreaHeight = 10; // 縦のリサイズ判定エリアの高さ
+
+            if (offsetX <= resizeAreaWidth && offsetY <= resizeAreaHeight) {
+                // リサイズ中のイベントリスナーを追加
+                window.addEventListener('mousemove', resizeElement);
+                // リサイズ終了時のイベントリスナーを追加
+                window.addEventListener('mouseup', stopResizeElement);
+            }
+        });
+
+        // リサイズ中の処理
+        function resizeElement(e) {
+            var deltaX = e.clientX - startX;
+            var deltaY = e.clientY - startY;
+            newDiv.style.width = (startWidth + deltaX) + 'px';
+            newDiv.style.height = (startHeight + deltaY) + 'px';
         }
-    });
+
+        // リサイズ終了時の処理
+        function stopResizeElement() {
+            // リサイズ中のイベントリスナーを削除
+            window.removeEventListener('mousemove', resizeElement);
+            // リサイズ終了時のイベントリスナーを削除
+            window.removeEventListener('mouseup', stopResizeElement);
+
+            document.body.style.cursor = 'default';
+        }
+    }
+});
+
+
 
     // ドラッグ＆ドロップされた要素を設定する
     var clonedElements = document.querySelectorAll('.cloned-element');
@@ -88,21 +168,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // ドラッグ開始時の処理
         element.addEventListener('mousedown', function (e) {
-            active = true;
-            draggedElement = element;
+            // マウスイベントがリサイズハンドル上で発生したかどうかをチェック
+            var isResizeHandleClicked = e.target.classList.contains('resize-handle');
 
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
+            if (!isResizeHandleClicked) {
+                // ドラッグ開始処理
+                active = true;
+                draggedElement = element;
 
-            // ドラッグされた要素を最前面に表示
-            draggedElement.style.zIndex = '100';
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+
+                // ドラッグされた要素を最前面に表示
+                draggedElement.style.zIndex = '100';
+            }
         });
 
         // ドラッグ終了時の処理
         element.addEventListener('mouseup', function () {
-            active = false;
-            draggedElement.style.zIndex = ''; // ドラッグ終了後、z-index をクリア
+            if (draggedElement) {
+                active = false;
+                draggedElement.style.zIndex = ''; // ドラッグ終了後、z-index をクリア
+            }
         });
+
 
         // ドラッグ中の処理
         element.addEventListener('mousemove', function (e) {
@@ -123,56 +212,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // リサイズハンドルの要素
-    var resizeHandleSize = 10; // リサイズハンドルのサイズ
-    var resizeHandle = document.createElement('div');
-    resizeHandle.className = 'resize-handle';
-
-    function addResizableListeners(element) {
-        // リサイズハンドルがドラッグされたかどうかを示すフラグ
-        var isResizing = false;
-        element.appendChild(resizeHandle);
-        
-        // ドラッグされた要素をリサイズするための関数
-        function resizeElement(deltaX, deltaY) {
-            var width = parseInt(document.defaultView.getComputedStyle(element).width, 10) + deltaX;
-            var height = parseInt(document.defaultView.getComputedStyle(element).height, 10) + deltaY;
-            element.style.width = width + 'px';
-            element.style.height = height + 'px';
-        }
-
-        // リサイズ開始時の処理
-        element.addEventListener('mousedown', function (e) {
-            var right = element.offsetLeft + element.offsetWidth;
-            var bottom = element.offsetTop + element.offsetHeight;
-            if (
-                e.clientX >= right - resizeHandleSize &&
-                e.clientX <= right &&
-                e.clientY >= bottom - resizeHandleSize &&
-                e.clientY <= bottom
-            ) {
-                isResizing = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                startWidth = parseInt(document.defaultView.getComputedStyle(element).width, 10);
-                startHeight = parseInt(document.defaultView.getComputedStyle(element).height, 10);
-            }
-        });
-
-        // リサイズ中の処理
-        window.addEventListener('mousemove', function (e) {
-            if (isResizing) {
-                var deltaX = e.clientX - startX;
-                var deltaY = e.clientY - startY;
-                resizeElement(deltaX, deltaY);
-            }
-        });
-
-        // リサイズ終了時の処理
-        window.addEventListener('mouseup', function () {
-            isResizing = false;
-        });
-    }
 
     // 保存ボタンがクリックされたときのイベントリスナー
     saveButton.addEventListener('click', function () {
@@ -206,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
         URL.revokeObjectURL(url);
     });
 
-    // ドラッグされた要素を設定する
+    // ドラッグ＆ドロップされた要素を設定する
     dragElement.addEventListener('dragstart', function (ev) {
         drag(ev);
     });
@@ -288,4 +327,47 @@ document.addEventListener('DOMContentLoaded', function () {
         displaySelectedElementStyle(selectedElement);
     }
 
+    // 削除ボタンの要素を取得
+    var deleteButton = document.getElementById('delete-button');
+
+    // 削除ボタンがクリックされたときのイベントリスナーを追加
+    deleteButton.addEventListener('click', function () {
+        // 選択中の clonedElement を取得
+        var selectedElement = document.querySelector('.selected');
+
+        // clonedElement が存在する場合は削除する
+        if (selectedElement) {
+            selectedElement.remove();
+        }
+    });
+
+    var styleControls = document.querySelector('.style-controls');
+
+
+    // 選択された要素のタイプをチェックしてUIを制御する関数
+    function checkSelectedElementType(selectedElement) {
+        var imageUploadUI = styleControls.querySelector('.image-upload-ui');
+        var audioUploadUI = styleControls.querySelector('.audio-upload-ui');
+        var videoUploadUI = styleControls.querySelector('.video-upload-ui');
+
+        // 初期状態ではすべてのUIを非表示にする
+        imageUploadUI.style.display = 'none';
+        audioUploadUI.style.display = 'none';
+        videoUploadUI.style.display = 'none';
+
+        // 選択された要素のIDに基づいてUIを表示
+        switch (selectedElement.className) {
+            case 'drag-element-img cloned-element selected':
+                imageUploadUI.style.display = 'block';
+                break;
+            case 'drag-element-audio cloned-element selected':
+                audioUploadUI.style.display = 'block';
+                break;
+            case 'drag-element-video cloned-element selected':
+                videoUploadUI.style.display = 'block';
+                break;
+            default:
+                break;
+        }
+    }
 });

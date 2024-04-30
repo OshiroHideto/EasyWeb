@@ -110,27 +110,78 @@ input:checked+.tab_class2 {
     width: 100%;
 }
 
+.element-text {
+    width: 100px;
+    height: 30px;
+    font-family: Hiragino Sans;
+    font-weight: bold;
+}
 
 .drag-element-button {
     background-color: #007bff;
     color: #fff;
     text-align: center;
-    line-height: 50px;
+    line-height: 40px;
     cursor: pointer;
     width: 100px;
-    height: 50px;
+    height: 40px;
     margin-bottom: 5px;
 }
 
 .drag-element-txitArea {
-    background-color: #007bff;
-    color: #fff;
+    background-color: white;
+    color: black;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
     width: 100px;
     height: 30px;
     margin-bottom: 5px;
+    border: 1px solid black;
+}
+
+.drag-element-link {
+    text-align: center;
+    line-height: 30px;
+    width: 70px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.drag-element-img {
+    width: 70px;
+    height: 70px;
+    border: 1px solid black;
+    margin-bottom: 5px;
+}
+
+.element-img {
+    width: 100%;
+    height: 100%;
+}
+
+.drag-element-audio {
+    width: 70px;
+    height: 70px;
+    border: 1px solid black;
+    margin-bottom: 5px;
+}
+
+.element-audio {
+    width: 100%;
+    height: 100%;
+}
+
+.drag-element-video {
+    width: 70px;
+    height: 70px;
+    border: 1px solid black;
+    margin-bottom: 5px;
+}
+
+.element-video {
+    width: 100%;
+    height: 100%;
 }
 
 .tab_class2 {
@@ -175,8 +226,10 @@ input:checked+.tab_class2+.style-controls {
 
 /* 選択された要素のスタイル */
 .cloned-element.selected {
-    border: 2px solid red; /* 枠のスタイル */
-    box-sizing: border-box; /* 枠を要素の外側に表示するための設定 */
+    border: 2px solid red;
+    /* 枠のスタイル */
+    box-sizing: border-box;
+    /* 枠を要素の外側に表示するための設定 */
 }
 
 .height-controls {
@@ -193,4 +246,16 @@ input:checked+.tab_class2+.style-controls {
 
 .font-family-controls {
     width: 150px;
+}
+
+.image-upload-ui {
+    display: none;
+}
+
+.audio-upload-ui {
+    display: none;
+}
+
+.video-upload-ui {
+    display: none;
 }
