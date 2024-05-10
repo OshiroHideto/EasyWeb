@@ -226,10 +226,9 @@ input:checked+.tab_class2+.style-controls {
 
 /* 選択された要素のスタイル */
 .cloned-element.selected {
-    border: 2px solid red;
-    /* 枠のスタイル */
+    border: 1px solid red;
     box-sizing: border-box;
-    /* 枠を要素の外側に表示するための設定 */
+    margin-bottom: 5px;
 }
 
 .height-controls {
